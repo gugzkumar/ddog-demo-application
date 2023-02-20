@@ -1,8 +1,10 @@
+# Variables setup for tagging and naming resources
 locals {
   common_tags = {
     Application = var.APPLICATION_NAME
     Environment = var.ENVIRONMENT
   }
+  aws_prefix = "${var.ENVIRONMENT}-${var.APPLICATION_NAME}"
 }
 
 terraform {
@@ -28,9 +30,16 @@ provider "aws" {}
 # Modules
 module "datadog_apm" {
   source         = "./datadog"
-  common_tags    = local.common_tags
+  common_tags = local.common_tags
+  aws_prefix  = local.aws_prefix
   AWS_ACCOUNT_ID = var.AWS_ACCOUNT_ID
   providers = {
     datadog = datadog
   }
+}
+
+module "aws_resources" {
+  source      = "./aws"
+  common_tags = local.common_tags
+  aws_prefix  = local.aws_prefix
 }

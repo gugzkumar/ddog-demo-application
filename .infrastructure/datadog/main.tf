@@ -119,13 +119,13 @@ data "aws_iam_policy_document" "datadog_aws_integration" {
 }
 
 resource "aws_iam_policy" "datadog_aws_integration" {
-  name   = "DatadogAWSIntegrationPolicy"
+  name   = "${var.aws_prefix}-DatadogAWSIntegrationPolicy"
   policy = data.aws_iam_policy_document.datadog_aws_integration.json
   tags   = var.common_tags
 }
 
 resource "aws_iam_role" "datadog_aws_integration" {
-  name               = "DatadogAWSIntegrationRole"
+  name               = "${var.aws_prefix}-DatadogAWSIntegrationRole"
   description        = "Role for Datadog AWS Integration"
   assume_role_policy = data.aws_iam_policy_document.datadog_aws_integration_assume_role.json
   tags               = var.common_tags

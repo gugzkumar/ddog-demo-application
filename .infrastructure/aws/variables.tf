@@ -8,7 +8,3 @@ variable "aws_prefix" {
   type        = string
 }
 
-variable "AWS_ACCOUNT_ID" {
-  description = "Your AWS Account ID without dashes"
-  type        = string
-}
