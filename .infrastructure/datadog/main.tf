@@ -107,7 +107,8 @@ data "aws_iam_policy_document" "datadog_aws_integration" {
     resources = ["*"]
     condition {
       test = "ForAllValues:StringLike"
-      variable = "aws:ResourceTag/${var.common_tags["Application"]}"
+      variable = "aws:TagKeys"
+      values = var.common_tags
     }
   }
 }
