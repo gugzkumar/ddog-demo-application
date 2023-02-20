@@ -28,6 +28,6 @@ provider "aws" {}
 
 # Modules
 module "datadog_apm" {
-  source = "./modules/datadog-apm"
+  source = "./datadog"
   common_tags = local.common_tags
 }
