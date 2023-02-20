@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    datadog = {
+      source = "DataDog/datadog"
+    }
+  }
+}
+
 # FROM https://docs.datadoghq.com/integrations/guide/aws-terraform-setup/
 data "aws_iam_policy_document" "datadog_aws_integration_assume_role" {
   statement {

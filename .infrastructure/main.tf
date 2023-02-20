@@ -1,6 +1,6 @@
 locals {
   common_tags = {
-    Terraform = "true"
+    Terraform   = "true"
     Application = var.APPLICATION
     Environment = var.ENVIRONMENT
   }
@@ -28,6 +28,9 @@ provider "aws" {}
 
 # Modules
 module "datadog_apm" {
-  source = "./datadog"
+  source      = "./datadog"
   common_tags = local.common_tags
+  providers = {
+    datadog = datadog
+  }
 }
