@@ -1,6 +1,6 @@
 # Create a private S3 bucket for storing Terraform state
 resource "aws_s3_bucket" "data_lake" {
-  bucket = "${var.ENVIRONMENT}-data-lake"
+  bucket = "${var.aws_prefix}-data-lake"
   acl    = "private"
   tags   = var.common_tags
 }
