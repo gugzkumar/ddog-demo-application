@@ -138,5 +138,5 @@ resource "aws_iam_role_policy_attachment" "datadog_aws_integration" {
 
 resource "datadog_integration_aws" "sandbox" {
   account_id = var.AWS_ACCOUNT_ID
-  role_name  = "DatadogAWSIntegrationRole"
+  role_name  = "${var.aws_prefix}-DatadogAWSIntegrationRole"
 }
