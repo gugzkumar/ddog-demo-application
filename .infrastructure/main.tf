@@ -28,8 +28,9 @@ provider "aws" {}
 
 # Modules
 module "datadog_apm" {
-  source      = "./datadog"
-  common_tags = local.common_tags
+  source         = "./datadog"
+  common_tags    = local.common_tags
+  AWS_ACCOUNT_ID = var.AWS_ACCOUNT_ID
   providers = {
     datadog = datadog
   }

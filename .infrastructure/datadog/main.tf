@@ -106,9 +106,8 @@ data "aws_iam_policy_document" "datadog_aws_integration" {
     ]
     resources = ["*"]
     condition = {
-      "ForAllValues:StringEquals" : {
-        "aws:TagKeys" : var.common_tags
-      }
+      test     = "ForAllValues:StringLike"
+      variable = "aws:ResourceTag/${var.common_tags["Application"]}"
     }
   }
 }
@@ -133,6 +132,6 @@ resource "aws_iam_role_policy_attachment" "datadog_aws_integration" {
 }
 
 resource "datadog_integration_aws" "sandbox" {
-  access_key_id = 056825751459
-  role_name     = "DatadogAWSIntegrationRole"
+  account_id = var.AWS_ACCOUNT_ID
+  role_name  = "DatadogAWSIntegrationRole"
 }
