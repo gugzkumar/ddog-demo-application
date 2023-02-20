@@ -20,6 +20,12 @@ resource "aws_s3_bucket_acl" "data_lake_bucket_acl" {
   acl    = "private"
 }
 
+resource "aws_s3_bucket_metric" "data_lake_bucket_metric" {
+  bucket = aws_s3_bucket.data_lake.id
+  name   = "${var.aws_prefix}-data-lake-metric"
+  tags   = var.common_tags
+}
+
 # resource "aws_s3_bucket_logging" "example" {
 #   bucket = aws_s3_bucket.data_lake.id
 #   target_bucket = aws_s3_bucket.log_collection.id
