@@ -52,3 +52,4 @@ Trying to build a rough application that can help me learn some of Data Dog's fe
 1. SPLIT REPOS?
 2. CI/CD of REPO
 3. Hashicorp wrong account_id required: https://registry.terraform.io/providers/DataDog/datadog/latest/docs/resources/integration_aws
+4. Scope Restrictions?

@@ -1,3 +1,6 @@
 .env
 .tfvars
 .terraform
+.terraform.lock.hcl
+.terraformrc
+.terraformrc.json
