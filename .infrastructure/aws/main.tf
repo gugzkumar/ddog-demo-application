@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "log_collection" {
   tags   = var.common_tags
 }
 
-resource "aws_s3_bucket_acl" "example_bucket_acl" {
+resource "aws_s3_bucket_acl" "log_collection_bucket_acl" {
   bucket = aws_s3_bucket.log_collection.id
   acl    = "log-delivery-write"
 }
@@ -15,7 +15,7 @@ resource "aws_s3_bucket" "data_lake" {
   tags   = var.common_tags
 }
 
-resource "aws_s3_bucket_acl" "example_bucket_acl" {
+resource "aws_s3_bucket_acl" "data_lake_bucket_acl" {
   bucket = aws_s3_bucket.data_lake.id
   acl    = "private"
 }
