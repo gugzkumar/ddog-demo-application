@@ -1,8 +1,12 @@
 # Create a private S3 bucket for storing Terraform state
 resource "aws_s3_bucket" "data_lake" {
   bucket = "${var.aws_prefix}-data-lake"
-  acl    = "private"
   tags   = var.common_tags
+}
+
+resource "aws_s3_bucket_acl" "example_bucket_acl" {
+  bucket = aws_s3_bucket.data_lake.id
+  acl    = "private"
 }
 
 # Create a serverles Redshift cluster for the data warehouse
