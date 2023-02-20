@@ -1,4 +1,15 @@
-# Create a private S3 bucket for storing Terraform state
+# S3 Bucket for log collection
+resource "aws_s3_bucket" "log_collection" {
+  bucket = "${var.aws_prefix}-log-collection"
+  tags   = var.common_tags
+}
+
+resource "aws_s3_bucket_acl" "example_bucket_acl" {
+  bucket = aws_s3_bucket.log_collection.id
+  acl    = "log-delivery-write"
+}
+
+# Data Lake
 resource "aws_s3_bucket" "data_lake" {
   bucket = "${var.aws_prefix}-data-lake"
   tags   = var.common_tags
@@ -8,6 +19,13 @@ resource "aws_s3_bucket_acl" "example_bucket_acl" {
   bucket = aws_s3_bucket.data_lake.id
   acl    = "private"
 }
+
+# resource "aws_s3_bucket_logging" "example" {
+#   bucket = aws_s3_bucket.data_lake.id
+#   target_bucket = aws_s3_bucket.log_collection.id
+#   target_prefix = "log/"
+# }
+
 
 # Create a serverles Redshift cluster for the data warehouse
 # resource "aws_redshift_cluster" "data_warehouse" {

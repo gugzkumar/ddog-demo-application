@@ -53,3 +53,5 @@ Trying to build a rough application that can help me learn some of Data Dog's fe
 2. CI/CD of REPO
 3. Hashicorp wrong account_id required: https://registry.terraform.io/providers/DataDog/datadog/latest/docs/resources/integration_aws
 4. Scope Restrictions?
+5. Search all resources in the AWS Account
+6. Supplemental instructions for debugging why something is not collected

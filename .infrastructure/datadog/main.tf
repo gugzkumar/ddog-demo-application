@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "datadog_aws_integration" {
       "apigateway:GET",
       "autoscaling:Describe*",
       "backup:List*",
-      "budgets:ViewBudget",
+      # "budgets:ViewBudget",
       "cloudfront:GetDistributionConfig",
       "cloudfront:ListDistributions",
       "cloudtrail:DescribeTrails",
@@ -41,11 +41,11 @@ data "aws_iam_policy_document" "datadog_aws_integration" {
       "cloudwatch:Describe*",
       "cloudwatch:Get*",
       "cloudwatch:List*",
-      "codedeploy:List*",
-      "codedeploy:BatchGet*",
-      "directconnect:Describe*",
-      "dynamodb:List*",
-      "dynamodb:Describe*",
+      # "codedeploy:List*",
+      # "codedeploy:BatchGet*",
+      # "directconnect:Describe*",
+      # "dynamodb:List*",
+      # "dynamodb:Describe*",
       "ec2:Describe*",
       "ecs:Describe*",
       "ecs:List*",
@@ -66,8 +66,8 @@ data "aws_iam_policy_document" "datadog_aws_integration" {
       "health:DescribeEvents",
       "health:DescribeEventDetails",
       "health:DescribeAffectedEntities",
-      "kinesis:List*",
-      "kinesis:Describe*",
+      # "kinesis:List*",
+      # "kinesis:Describe*",
       "lambda:GetPolicy",
       "lambda:List*",
       "logs:DeleteSubscriptionFilter",
@@ -77,13 +77,13 @@ data "aws_iam_policy_document" "datadog_aws_integration" {
       "logs:FilterLogEvents",
       "logs:PutSubscriptionFilter",
       "logs:TestMetricFilter",
-      "organizations:Describe*",
-      "organizations:List*",
+      # "organizations:Describe*",
+      # "organizations:List*",
       "rds:Describe*",
       "rds:List*",
-      "redshift:DescribeClusters",
-      "redshift:DescribeLoggingStatus",
-      "route53:List*",
+      # "redshift:DescribeClusters",
+      # "redshift:DescribeLoggingStatus",
+      # "route53:List*",
       "s3:GetBucketLogging",
       "s3:GetBucketLocation",
       "s3:GetBucketNotification",
@@ -94,27 +94,27 @@ data "aws_iam_policy_document" "datadog_aws_integration" {
       "sns:List*",
       "sns:Publish",
       "sqs:ListQueues",
-      "states:ListStateMachines",
-      "states:DescribeStateMachine",
-      "support:DescribeTrustedAdvisor*",
-      "support:RefreshTrustedAdvisorCheck",
+      # "states:ListStateMachines",
+      # "states:DescribeStateMachine",
+      # "support:DescribeTrustedAdvisor*",
+      # "support:RefreshTrustedAdvisorCheck",
       "tag:GetResources",
       "tag:GetTagKeys",
       "tag:GetTagValues",
-      "xray:BatchGetTraces",
-      "xray:GetTraceSummaries"
+      # "xray:BatchGetTraces",
+      # "xray:GetTraceSummaries"
     ]
     resources = ["*"]
-    condition {
-      test     = "ForAllValues:StringEquals"
-      variable = "aws:PrincipalTag/Application"
-      values   = [var.common_tags["Application"]]
-    }
-    condition {
-      test     = "ForAllValues:StringEquals"
-      variable = "aws:PrincipalTag/Environment"
-      values   = [var.common_tags["Environment"]]
-    }
+    # condition {
+    #   test     = "ForAllValues:StringEquals"
+    #   variable = "aws:ResourceTag/Application"
+    #   values   = [var.common_tags["Application"]]
+    # }
+    # condition {
+    #   test     = "ForAllValues:StringEquals"
+    #   variable = "aws:ResourceTag/Environment"
+    #   values   = [var.common_tags["Environment"]]
+    # }
   }
 }
 
