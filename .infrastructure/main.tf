@@ -12,3 +12,8 @@ provider "datadog" {
   app_key = var.DATADOG_APP_KEY
 }
 
+# Configure the AWS provider (access should be configured via environment variables):
+# - AWS_ACCESS_KEY_ID
+# - AWS_SECRET_ACCESS_KEY
+# - AWS_DEFAULT_REGION
+provider "aws" {}
