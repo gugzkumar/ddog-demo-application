@@ -33,6 +33,7 @@ Trying to build a rough application that can help me learn some of Data Dog's fe
 3. After setting up set the following variables (as variable category **Terraform Variable**):
     - `DATADOG_API_KEY` - Datadog API Key
     - `DATADOG_APP_KEY` - Datadog APP Key
+    - `AWS_ACCOUNT_ID` - AWS Account ID without dashes
 3. In settings, set the Terraform Working Directory to `./.infrastructure`
 4. You should be able to run terraform plan from the workspace and see the resources that will be created
 5. Run terraform apply to create the infrastructure
@@ -50,3 +51,4 @@ Trying to build a rough application that can help me learn some of Data Dog's fe
 4. More pictures for better guided documentation d
 1. SPLIT REPOS?
 2. CI/CD of REPO
+3. Hashicorp wrong account_id required: https://registry.terraform.io/providers/DataDog/datadog/latest/docs/resources/integration_aws

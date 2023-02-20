@@ -1,3 +1,11 @@
+locals {
+  common_tags = {
+    Terraform = "true"
+    Application = var.APPLICATION
+    Environment = var.ENVIRONMENT
+  }
+}
+
 terraform {
   required_providers {
     datadog = {
@@ -17,3 +25,9 @@ provider "datadog" {
 # - AWS_SECRET_ACCESS_KEY
 # - AWS_DEFAULT_REGION
 provider "aws" {}
+
+# Modules
+module "datadog_apm" {
+  source = "./modules/datadog-apm"
+  common_tags = local.common_tags
+}
