@@ -134,7 +134,6 @@ resource "aws_iam_role" "datadog_aws_integration" {
 resource "aws_iam_role_policy_attachment" "datadog_aws_integration" {
   role       = aws_iam_role.datadog_aws_integration.name
   policy_arn = aws_iam_policy.datadog_aws_integration.arn
-  tags       = var.common_tags
 }
 
 resource "datadog_integration_aws" "sandbox" {
