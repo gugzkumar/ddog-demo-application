@@ -1,6 +1,6 @@
 variable "common_tags" {
   description = "tags for resources"
-  type        = string
+  type        = map(string)
 }
 
 variable "AWS_ACCOUNT_ID" {
