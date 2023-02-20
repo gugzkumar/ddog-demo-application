@@ -45,9 +45,8 @@ Trying to build a rough application that can help me learn some of Data Dog's fe
 2. Instructions to setting up different environments (dev, staging, prod)
     - I would use a different GitHub branch for every environment (dev, staging, prod)
     - I would use a different terraform workspace for every environment, where the VCS connection is set to the branch for that environment
+    - This would involve some critical thinking especially at the enterprise scale
 3. Local Development Setup
-4. More pictures for better guided documentation
-
-
+4. More pictures for better guided documentation d
 1. SPLIT REPOS?
 2. CI/CD of REPO
