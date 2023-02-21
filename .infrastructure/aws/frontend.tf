@@ -25,7 +25,7 @@ resource "aws_s3_bucket_website_configuration" "frontend_bucket_website_configur
 
 resource "aws_s3_bucket_acl" "frontend_bucket_acl" {
   bucket = aws_s3_bucket.frontend_bucket.id
-  acl    = "private"
+  acl    = "public"
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
@@ -90,8 +90,8 @@ data "aws_iam_policy_document" "s3_policy" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "frontend_bucket_public_access_block" {
-  bucket              = aws_s3_bucket.frontend_bucket.id
-  block_public_acls   = true
-  block_public_policy = true
-}
+# resource "aws_s3_bucket_public_access_block" "frontend_bucket_public_access_block" {
+#   bucket              = aws_s3_bucket.frontend_bucket.id
+#   block_public_acls   = true
+#   block_public_policy = true
+# }
