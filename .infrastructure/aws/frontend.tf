@@ -72,10 +72,16 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     default_ttl            = 3600
     max_ttl                = 86400
   }
-  
-  viewer_certificate {
-    cloudfront_default_certificate = true
+
+  lifecycle {
+    ignore_changes = [
+      aliases,
+      viewer_certificate
+    ]
   }
+  #   viewer_certificate {
+  #     cloudfront_default_certificate = true
+  #   }
 }
 
 data "aws_iam_policy_document" "s3_policy" {
