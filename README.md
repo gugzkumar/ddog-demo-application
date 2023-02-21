@@ -1,5 +1,7 @@
 # ddog-demo-application
-Trying to build a rough application that can help me learn some of Data Dog's features
+This is a demo application that is set up to simulate events on DataDog for a simple web application. The Architecture is fairly straight forward:
+
+<!-- ADD ARCHITECTURE DIAGRAM -->
 
 ## Prerequisites
 - Terraform Enterprise
@@ -8,6 +10,7 @@ Trying to build a rough application that can help me learn some of Data Dog's fe
     - Instructions found here: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html
     - Instructions for creating Access Keys found here: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey
     - Note: Make sure to save the Access Key ID and Secret Access Key
+    - An AWS VPC ID you can deploy to
 - Datadog Account
     - Have an API Key and APP Key
     - Instructions found here: https://docs.datadoghq.com/account_management/api-app-keys/
@@ -34,6 +37,10 @@ Trying to build a rough application that can help me learn some of Data Dog's fe
     - `DATADOG_API_KEY` - Datadog API Key
     - `DATADOG_APP_KEY` - Datadog APP Key
     - `AWS_ACCOUNT_ID` - AWS Account ID without dashes
+    - `AWS_VPC_ID` - AWS VPC ID
+    - `AWS_PUBLIC_SUBNET_ID` - AWS Subnet ID
+    - `AWS_PRIVATE_SUBNET_ID` - AWS Subnet ID
+
 3. In settings, set the Terraform Working Directory to `./.infrastructure`
 4. You should be able to run terraform plan from the workspace and see the resources that will be created
 5. Run terraform apply to create the infrastructure
