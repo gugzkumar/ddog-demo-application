@@ -105,16 +105,16 @@ data "aws_iam_policy_document" "datadog_aws_integration" {
       # "xray:GetTraceSummaries"
     ]
     resources = ["*"]
-    # condition {
-    #   test     = "ForAllValues:StringEquals"
-    #   variable = "aws:ResourceTag/Application"
-    #   values   = [var.common_tags["Application"]]
-    # }
-    # condition {
-    #   test     = "ForAllValues:StringEquals"
-    #   variable = "aws:ResourceTag/Environment"
-    #   values   = [var.common_tags["Environment"]]
-    # }
+    condition {
+      test     = "ForAllValues:StringEquals"
+      variable = "aws:ResourceTag/Application"
+      values   = [var.common_tags["Application"]]
+    }
+    condition {
+      test     = "ForAllValues:StringEquals"
+      variable = "aws:ResourceTag/Environment"
+      values   = [var.common_tags["Environment"]]
+    }
   }
 }
 
