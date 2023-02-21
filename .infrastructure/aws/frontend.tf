@@ -44,7 +44,31 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
 
   tags = var.common_tags
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
 
+  default_cache_behavior {
+    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = local.website_url
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+  }
+  
   viewer_certificate {
     cloudfront_default_certificate = true
   }
@@ -53,7 +77,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 data "aws_iam_policy_document" "s3_policy" {
   statement {
     actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.b.arn}/*"]
+    resources = ["${aws_s3_bucket.frontend_bucket.arn}/*"]
 
     principals {
       type        = "AWS"
@@ -62,3 +86,8 @@ data "aws_iam_policy_document" "s3_policy" {
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "frontend_bucket_public_access_block" {
+  bucket              = aws_s3_bucket.frontend_bucket
+  block_public_acls   = true
+  block_public_policy = true
+}
