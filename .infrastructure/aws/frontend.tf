@@ -1,3 +1,7 @@
+# Sets up a static website on AWS S3 and CloudFront using Terraform
+# Copied some of the code from here: 
+# https://towardsaws.com/provision-a-static-website-on-aws-s3-and-cloudfront-using-terraform-d8004a8f629a
+
 locals {
   website_url = "${var.aws_prefix}.gugz.net"
 }
