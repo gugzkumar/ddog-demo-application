@@ -79,9 +79,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       viewer_certificate
     ]
   }
-  #   viewer_certificate {
-  #     cloudfront_default_certificate = true
-  #   }
+  viewer_certificate {
+    
+  }
 }
 
 data "aws_iam_policy_document" "s3_policy" {
