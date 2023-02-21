@@ -25,7 +25,7 @@ resource "aws_s3_bucket_website_configuration" "frontend_bucket_website_configur
 
 resource "aws_s3_bucket_acl" "frontend_bucket_acl" {
   bucket = aws_s3_bucket.frontend_bucket.id
-  acl    = "public"
+  acl    = "public-read"
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
