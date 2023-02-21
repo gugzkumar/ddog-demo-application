@@ -4,12 +4,24 @@ locals {
 
 resource "aws_s3_bucket" "frontend_bucket" {
   bucket = local.website_url
-  acl    = "private"
   tags   = var.common_tags
-  website {
-    index_document = "index.html"
-    error_document = "error.html"
+}
+
+resource "aws_s3_bucket_website_configuration" "frontend_bucket_website_configuration" {
+  bucket = aws_s3_bucket.frontend_bucket.id
+
+  index_document {
+    suffix = "index.html"
   }
+
+  error_document {
+    key = "error.html"
+  }
+}
+
+resource "aws_s3_bucket_acl" "frontend_bucket_acl" {
+  bucket = aws_s3_bucket.frontend_bucket.id
+  acl    = "private"
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
@@ -17,15 +29,18 @@ resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
 }
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
-  domain_name = aws_s3_bucket.frontend_bucket.bucket_regional_domain_name
-  origin_id   = local.website_url
-  s3_origin_config {
-    origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
+
+  origin {
+    domain_name = aws_s3_bucket.frontend_bucket.bucket_regional_domain_name
+    origin_id   = local.website_url
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
+    }
   }
+
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
-
 
 
   tags = var.common_tags
