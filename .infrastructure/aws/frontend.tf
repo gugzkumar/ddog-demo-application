@@ -80,11 +80,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     ]
   }
   viewer_certificate {
-    
+
   }
 }
 
-data "aws_iam_policy_document" "s3_policy" {
+data "aws_iam_policy_document" "frontend_bucket_policy" {
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.frontend_bucket.arn}/*"]
@@ -94,6 +94,11 @@ data "aws_iam_policy_document" "s3_policy" {
       identifiers = [aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn]
     }
   }
+}
+
+resource "aws_s3_bucket_policy" "frontend_bucket_policy" {
+  bucket = aws_s3_bucket.frontend_bucket_.id
+  policy = data.aws_iam_policy_document.frontend_bucket_policy.json
 }
 
 # resource "aws_s3_bucket_public_access_block" "frontend_bucket_public_access_block" {
