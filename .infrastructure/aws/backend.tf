@@ -38,10 +38,10 @@ resource "aws_ecs_task_definition" "api-task-definition" {
 }
 
 resource "aws_lb" "loadbalancer" {
-  internal = false
-  type     = "application"
-  name     = "${var.aws_prefix}-api-loadbalancer"
-  tags     = var.common_tags
+  internal           = false
+  load_balancer_type = "application"
+  name               = "${var.aws_prefix}-api-loadbalancer"
+  tags               = var.common_tags
 }
 
 resource "aws_lb_target_group" "lb_target_group" {
