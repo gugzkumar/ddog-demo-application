@@ -12,3 +12,7 @@ variable "AWS_ACCOUNT_ID" {
   description = "Your AWS Account ID without dashes"
   type        = string
 }
+
+variable "AWS_VPC_ID" {
+  type = string
+}

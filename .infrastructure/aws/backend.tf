@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "api-task-definition" {
       portMappings = [
         {
           containerPort = 6000
-          hostPort      = 6000
+          hostPort      = 80
         }
       ]
     }
@@ -34,6 +34,33 @@ resource "aws_ecs_task_definition" "api-task-definition" {
   cpu                      = "1024"
   requires_compatibilities = ["EC2"]
   task_role_arn            = aws_iam_role.api-service-role.arn
+  tags                     = var.common_tags
+}
+
+resource "aws_lb" "loadbalancer" {
+  internal = false
+  type     = "application"
+  name     = "${var.aws_prefix}-api-loadbalancer"
+  tags     = var.common_tags
+}
+
+resource "aws_lb_target_group" "lb_target_group" {
+  name     = "${var.aws_prefix}-api-loadbalancer-target-group"
+  port     = "80"
+  protocol = "HTTP"
+  vpc_id   = var.AWS_VPC_ID
+  tags     = var.common_tags
+}
+
+resource "aws_lb_listener" "lb_listener" {
+  default_action {
+    target_group_arn = aws_lb_target_group.lb_target_group.id
+    type             = "forward"
+  }
+
+  load_balancer_arn = aws_lb.loadbalancer.arn
+  port              = "80"
+  protocol          = "HTTP"
 }
 
 # Instance role

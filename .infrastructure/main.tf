@@ -30,8 +30,8 @@ provider "aws" {}
 # Modules
 module "datadog_apm" {
   source         = "./datadog"
-  common_tags = local.common_tags
-  aws_prefix  = local.aws_prefix
+  common_tags    = local.common_tags
+  aws_prefix     = local.aws_prefix
   AWS_ACCOUNT_ID = var.AWS_ACCOUNT_ID
   providers = {
     datadog = datadog
@@ -39,8 +39,9 @@ module "datadog_apm" {
 }
 
 module "aws_resources" {
-  source      = "./aws"
-  common_tags = local.common_tags
-  aws_prefix  = local.aws_prefix
+  source         = "./aws"
+  common_tags    = local.common_tags
+  aws_prefix     = local.aws_prefix
   AWS_ACCOUNT_ID = var.AWS_ACCOUNT_ID
+  AWS_VPC_ID     = var.AWS_VPC_ID
 }
