@@ -24,3 +24,18 @@ variable "AWS_ACCOUNT_ID" {
   description = "Your AWS Account ID without dashes"
   type        = string
 }
+
+variable "AWS_VPC_ID" {
+  description = "The ID of the VPC to deploy the infrastructure into"
+  type        = string
+}
+
+variable "AWS_SUBNETS" {
+  description = "value of subnets to deploy the infrastructure into"
+  type        = list(string)
+}
+
+variable "AWS_SECUTIRY_GROUP" {
+  description = "value of security group to deploy the infrastructure into"
+  type        = string
+}
