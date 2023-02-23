@@ -64,6 +64,8 @@ resource "aws_lb_listener" "lb_listener" {
   protocol          = "HTTP"
 }
 
+
+# DDOG LISTENER RULES
 resource "aws_lb_target_group" "lb_target_group_ddog_agent" {
   name     = "${var.aws_prefix}-api-ddog-agent"
   port     = "8125"
@@ -79,7 +81,7 @@ resource "aws_lb_listener" "lb_listener_ddog_agent" {
   }
 
   load_balancer_arn = aws_lb.loadbalancer.arn
-  port              = "6000"
+  port              = "8125"
   protocol          = "UDP"
 }
 
