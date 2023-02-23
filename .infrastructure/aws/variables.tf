@@ -16,3 +16,7 @@ variable "AWS_ACCOUNT_ID" {
 variable "AWS_VPC_ID" {
   type = string
 }
+
+variable "AWS_SUBNETS" {
+  type = string
+}

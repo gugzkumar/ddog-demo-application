@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "api-task-definition" {
       portMappings = [
         {
           containerPort = 6000
-          hostPort      = 80
+          hostPort      = 6000
         }
       ]
     }
@@ -41,12 +41,13 @@ resource "aws_lb" "loadbalancer" {
   internal           = false
   load_balancer_type = "application"
   name               = "${var.aws_prefix}-api-loadbalancer"
+  subnets            = var.AWS_SUBNETS
   tags               = var.common_tags
 }
 
 resource "aws_lb_target_group" "lb_target_group" {
   name     = "${var.aws_prefix}-api-lb-tg"
-  port     = "80"
+  port     = "6000"
   protocol = "HTTP"
   vpc_id   = var.AWS_VPC_ID
   tags     = var.common_tags
@@ -59,7 +60,7 @@ resource "aws_lb_listener" "lb_listener" {
   }
 
   load_balancer_arn = aws_lb.loadbalancer.arn
-  port              = "80"
+  port              = "6000"
   protocol          = "HTTP"
 }
 
