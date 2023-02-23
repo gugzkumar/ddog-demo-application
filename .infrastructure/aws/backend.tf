@@ -64,6 +64,26 @@ resource "aws_lb_listener" "lb_listener" {
   protocol          = "HTTP"
 }
 
+resource "aws_lb_target_group" "lb_target_group_ddog_agent" {
+  name     = "${var.aws_prefix}-api-ddog-agent"
+  port     = "8125"
+  protocol = "UDP"
+  vpc_id   = var.AWS_VPC_ID
+  tags     = var.common_tags
+}
+
+resource "aws_lb_listener" "lb_listener_ddog_agent" {
+  default_action {
+    target_group_arn = aws_lb_target_group.lb_target_group_ddog_agent.id
+    type             = "forward"
+  }
+
+  load_balancer_arn = aws_lb.loadbalancer.arn
+  port              = "6000"
+  protocol          = "UDP"
+}
+
+
 # Instance role
 data "aws_iam_policy_document" "ecs-instance-policy" {
   statement {
@@ -118,10 +138,11 @@ resource "aws_iam_role_policy_attachment" "api-service-role-attachment" {
 
 # EC2 Instance
 resource "aws_instance" "ec2_instance" {
+  name                 = "${var.aws_prefix}-ecs-node"
   ami                  = "ami-0dfcb1ef8550277af"
   instance_type        = "t2.medium"
   iam_instance_profile = aws_iam_instance_profile.api-instance-profile.id
-  key_name             = "gagan" #CHANGE THIS
+  key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
   user_data            = data.template_file.user_data.rendered
 
   tags = var.common_tags
