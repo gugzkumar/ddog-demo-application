@@ -76,7 +76,7 @@ resource "aws_instance" "ec2_instance" {
   tags = var.common_tags
 
   lifecycle {
-    ignore_changes         = ["ami", "user_data", "key_name", "private_ip"]
+    ignore_changes         = [ami, user_data, key_name, private_ip]
   }
 }
 
