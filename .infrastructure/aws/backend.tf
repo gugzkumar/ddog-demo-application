@@ -4,7 +4,7 @@
 
 # ECR and ECS for Backend
 resource "aws_ecr_repository" "api-instance" {
-  name = "${var.aws_prefix}-api-instance"
+  name = "${var.aws_prefix}-api"
   tags = var.common_tags
 }
 
