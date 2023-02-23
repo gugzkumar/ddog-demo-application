@@ -42,4 +42,5 @@ module "aws_resources" {
   source      = "./aws"
   common_tags = local.common_tags
   aws_prefix  = local.aws_prefix
+  AWS_ACCOUNT_ID = var.AWS_ACCOUNT_ID
 }

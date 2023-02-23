@@ -35,7 +35,7 @@ variable "AWS_SUBNETS" {
   type        = list(string)
 }
 
-variable "AWS_SECUTIRY_GROUP" {
+variable "AWS_SECURITY_GROUP" {
   description = "value of security group to deploy the infrastructure into"
   type        = string
 }

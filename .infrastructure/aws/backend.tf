@@ -13,6 +13,29 @@ resource "aws_ecs_cluster" "api-instance-cluster" {
   tags = var.common_tags
 }
 
+resource "aws_ecs_task_definition" "api-task-definition" {
+  container_definitions = jsonencode([
+    {
+      name  = "${var.aws_prefix}-api"
+      image = "${var.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${var.aws_prefix}-api:latest"
+      portMappings = [
+        {
+          containerPort = 6000
+          hostPort      = 6000
+        }
+      ]
+    }
+  ])
+
+  execution_role_arn       = aws_iam_role.api-service-role.arn
+  family                   = "${var.aws_prefix}-api-task-definition"
+  network_mode             = "awsvpc"
+  memory                   = "2048"
+  cpu                      = "1024"
+  requires_compatibilities = ["EC2"]
+  task_role_arn            = aws_iam_role.api-service-role.arn
+}
+
 # Instance role
 data "aws_iam_policy_document" "ecs-instance-policy" {
   statement {
@@ -67,21 +90,21 @@ resource "aws_iam_role_policy_attachment" "api-service-role-attachment" {
 
 # EC2 Instance
 resource "aws_instance" "ec2_instance" {
-  ami                    = "ami-0dfcb1ef8550277af"
-  instance_type          = "t2.medium"
-  iam_instance_profile   = aws_iam_instance_profile.api-instance-profile.id
-  key_name               = "gagan" #CHANGE THIS
-  user_data              = "${data.template_file.user_data.rendered}"
+  ami                  = "ami-0dfcb1ef8550277af"
+  instance_type        = "t2.medium"
+  iam_instance_profile = aws_iam_instance_profile.api-instance-profile.id
+  key_name             = "gagan" #CHANGE THIS
+  user_data            = data.template_file.user_data.rendered
 
   tags = var.common_tags
 
   lifecycle {
-    ignore_changes         = [ami, user_data, key_name, private_ip]
+    ignore_changes = [ami, user_data, key_name, private_ip]
   }
 }
 
 
 data "template_file" "user_data" {
-  template = "${file("${path.module}/user_data.tpl")}"
+  template = file("${path.module}/user_data.tpl")
 }
 
