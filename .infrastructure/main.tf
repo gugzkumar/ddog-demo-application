@@ -44,4 +44,5 @@ module "aws_resources" {
   aws_prefix     = local.aws_prefix
   AWS_ACCOUNT_ID = var.AWS_ACCOUNT_ID
   AWS_VPC_ID     = var.AWS_VPC_ID
+  AWS_SUBNETS    = var.AWS_SUBNETS
 }
