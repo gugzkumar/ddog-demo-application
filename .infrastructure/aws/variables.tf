@@ -18,5 +18,5 @@ variable "AWS_VPC_ID" {
 }
 
 variable "AWS_SUBNETS" {
-  type = string
+  type = list(string)
 }
