@@ -118,14 +118,18 @@ resource "aws_iam_role_policy_attachment" "api-service-role-attachment" {
 
 # EC2 Instance
 resource "aws_instance" "ec2_instance" {
-  name                 = "${var.aws_prefix}-ecs-node"
   ami                  = "ami-0dfcb1ef8550277af"
   instance_type        = "t2.medium"
   iam_instance_profile = aws_iam_instance_profile.api-instance-profile.id
   key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
   user_data            = data.template_file.user_data.rendered
 
-  tags = var.common_tags
+  tags = merge(
+    var.common_tags,
+    {
+      Name = "${var.aws_prefix}-ecs-node"
+    }
+  )
 
   lifecycle {
     ignore_changes = [ami, user_data, key_name, private_ip]
