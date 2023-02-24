@@ -150,7 +150,7 @@ resource "aws_launch_configuration" "ecs_launch_config" {
   key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
 }
 
-resource "aws_autoscaling_group" "failure_analysis_ecs_asg" {
+resource "aws_autoscaling_group" "ecs_asg" {
   name                      = "${var.aws_prefix}-ecs-asg"
   vpc_zone_identifier       = var.AWS_SUBNETS
   launch_configuration      = aws_launch_configuration.ecs_launch_config.name
@@ -160,7 +160,7 @@ resource "aws_autoscaling_group" "failure_analysis_ecs_asg" {
   max_size                  = 2
   health_check_grace_period = 300
   health_check_type         = "EC2"
-  tag                       = var.common_tags
+  tags                       = concat([var.common_tags])
 }
 
 # Actual Services
