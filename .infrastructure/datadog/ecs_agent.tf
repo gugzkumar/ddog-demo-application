@@ -56,23 +56,17 @@ resource "aws_ecs_task_definition" "ddog-task-definition" {
 
   volume {
     name = "docker_sock"
-    host = {
-      sourcePath = "/var/run/docker.sock"
-    }
+    host_path = "/var/run/docker.sock"
   }
 
   volume {
     name = "cgroup"
-    host = {
-      sourcePath = "/sys/fs/cgroup"
-    }
+    host_path = "/sys/fs/cgroup"
   }
 
   volume {
     name = "proc"
-    host = {
-      sourcePath = "/proc"
-    }
+    host_path = "/proc"
   }
 
   family                   = "${var.aws_prefix}-ddog-agent"
