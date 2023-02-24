@@ -1,6 +1,7 @@
 # Sets up a ECS EC2 cluster for the backend
 # Copied some of the code from here: 
 # https://medium.com/@awsyadav/automating-ecs-ec2-type-deployments-with-terraform-569863c60e69
+# and https://github.com/ronnic1/aws-ecs-ec2-project
 
 # ECR and ECS for Backend
 resource "aws_ecr_repository" "api-instance" {
@@ -9,7 +10,7 @@ resource "aws_ecr_repository" "api-instance" {
 }
 
 resource "aws_ecs_cluster" "api-instance-cluster" {
-  name = "${var.aws_prefix}-my-cluster"
+  name = "${var.aws_prefix}-cluster"
   tags = var.common_tags
 }
 
@@ -141,3 +142,43 @@ data "template_file" "user_data" {
   template = file("${path.module}/user_data.tpl")
 }
 
+resource "aws_launch_configuration" "ecs_launch_config" {
+  image_id             = "ami-0dfcb1ef8550277af"
+  iam_instance_profile = aws_iam_instance_profile.api-instance-profile.id
+  user_data            = "#!/bin/bash\necho ECS_CLUSTER=${var.aws_prefix}-cluster >> /etc/ecs/ecs.config"
+  instance_type        = "t2.medium"
+  key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
+}
+
+resource "aws_autoscaling_group" "failure_analysis_ecs_asg" {
+  name                      = "${var.aws_prefix}-ecs-asg"
+  vpc_zone_identifier       = var.AWS_SUBNETS
+  launch_configuration      = aws_launch_configuration.ecs_launch_config.name
+  target_group_arns         = [aws_lb_target_group.lb_target_group.arn]
+  desired_capacity          = 1
+  min_size                  = 1
+  max_size                  = 2
+  health_check_grace_period = 300
+  health_check_type         = "EC2"
+  tags                      = var.common_tags
+}
+
+# Actual Services
+# resource "aws_ecs_service" "service" {
+#   cluster         = aws_ecs_cluster.cluster.id                  # ecs cluster id
+#   desired_count   = 1                                           # no of task running
+#   launch_type     = "EC2"                                       # Cluster type ECS OR FARGATE
+#   name            = "openapi-service"                           # Name of service
+#   task_definition = aws_ecs_task_definition.task_definition.arn # Attaching Task to service
+#   load_balancer {
+#     container_name   = "openapi-ecs-container" #"container_${var.component}_${var.environment}"
+#     container_port   = "8080"
+#     target_group_arn = aws_lb_target_group.lb_target_group.arn # attaching load_balancer target group to ecs
+#   }
+#   network_configuration {
+#     security_groups  = ["sg-01849003c4f9203ca"]             #CHANGE THIS
+#     subnets          = ["${var.subnet1}", "${var.subnet2}"] ## Enter the private subnet id
+#     assign_public_ip = "false"
+#   }
+#   depends_on = ["aws_lb_listener.lb_listener"]
+# }
