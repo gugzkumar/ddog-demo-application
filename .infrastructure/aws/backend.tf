@@ -60,7 +60,7 @@ resource "aws_lb_listener" "lb_listener" {
   }
 
   load_balancer_arn = aws_lb.loadbalancer.arn
-  port              = "6000"
+  port              = "80"
   protocol          = "HTTP"
 }
 
