@@ -32,6 +32,7 @@ module "datadog_apm" {
   source         = "./datadog"
   common_tags    = local.common_tags
   aws_prefix     = local.aws_prefix
+  DATADOG_API_KEY = var.DATADOG_API_KEY
   AWS_ACCOUNT_ID = var.AWS_ACCOUNT_ID
   providers = {
     datadog = datadog

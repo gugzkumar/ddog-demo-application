@@ -12,3 +12,8 @@ variable "AWS_ACCOUNT_ID" {
   description = "Your AWS Account ID without dashes"
   type        = string
 }
+
+variable "DATADOG_API_KEY" {
+  description = "Value of API key for the Datadog provider"
+  type        = string
+}
