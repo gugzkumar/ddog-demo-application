@@ -44,11 +44,11 @@ resource "aws_ecs_task_definition" "ddog-task-definition" {
         },
         {
           name  = "DD_DOGSTATSD_NON_LOCAL_TRAFFIC"
-          value = true
+          value = "true"
         },
         {
           name  = "DD_PROCESS_AGENT_ENABLED"
-          value = true
+          value = "true"
         },
       ]
     }
