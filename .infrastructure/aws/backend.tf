@@ -64,28 +64,6 @@ resource "aws_lb_listener" "lb_listener" {
   protocol          = "HTTP"
 }
 
-
-# DDOG LISTENER RULES
-resource "aws_lb_target_group" "lb_target_group_ddog_agent" {
-  name     = "${var.aws_prefix}-api-ddog-agent"
-  port     = "8125"
-  protocol = "UDP"
-  vpc_id   = var.AWS_VPC_ID
-  tags     = var.common_tags
-}
-
-resource "aws_lb_listener" "lb_listener_ddog_agent" {
-  default_action {
-    target_group_arn = aws_lb_target_group.lb_target_group_ddog_agent.id
-    type             = "forward"
-  }
-
-  load_balancer_arn = aws_lb.loadbalancer.arn
-  port              = "8125"
-  protocol          = "UDP"
-}
-
-
 # Instance role
 data "aws_iam_policy_document" "ecs-instance-policy" {
   statement {
