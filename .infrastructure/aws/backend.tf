@@ -50,6 +50,7 @@ resource "aws_lb_target_group" "lb_target_group" {
   name     = "${var.aws_prefix}-api-lb-tg"
   port     = "6000"
   protocol = "HTTP"
+  target_type = "alb"
   vpc_id   = var.AWS_VPC_ID
   tags     = var.common_tags
 }
@@ -227,10 +228,8 @@ resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
   }
 }
 
-
-
 # Actual Services
-resource "aws_ecs_service" "service" {
+resource "aws_ecs_service" "api-service" {
 
   cluster         = aws_ecs_cluster.ecs-cluster.id                  # ecs cluster id
   desired_count   = 1                                           # no of task running
@@ -249,6 +248,10 @@ resource "aws_ecs_service" "service" {
     subnets          = var.AWS_SUBNETS ## Enter the private subnet id
     assign_public_ip = "true"
   }
-  
+
 }
+
+# resource "" "name" {
+  
+# }
 
