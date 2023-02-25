@@ -2,6 +2,7 @@
 # https://docs.datadoghq.com/containers/amazon_ecs/?tab=awscli#create-an-ecs-task
 #
 # This agent also forwards and logs of containers in the same cluster to Datadog
+# Service setup in aws/ecs_tasks_and_services.tf
 
 resource "aws_ecs_task_definition" "ddog-task-definition" {
   container_definitions = jsonencode([
