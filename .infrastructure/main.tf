@@ -46,4 +46,5 @@ module "aws_resources" {
   AWS_ACCOUNT_ID = var.AWS_ACCOUNT_ID
   AWS_VPC_ID     = var.AWS_VPC_ID
   AWS_SUBNETS    = var.AWS_SUBNETS
+  datadog_agent_task_def_arn = module.datadog_apm.datadog_agent_task_def_arn
 }

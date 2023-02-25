@@ -55,16 +55,16 @@ resource "aws_lb_target_group" "lb_target_group" {
   tags        = var.common_tags
 }
 
-# resource "aws_lb_listener" "lb_listener" {
-#   default_action {
-#     target_group_arn = aws_lb_target_group.lb_target_group.id
-#     type             = "forward"
-#   }
+resource "aws_lb_listener" "lb_listener" {
+  default_action {
+    target_group_arn = aws_lb_target_group.lb_target_group.id
+    type             = "forward"
+  }
 
-#   load_balancer_arn = aws_lb.loadbalancer.arn
-#   port              = "80"
-#   protocol          = "HTTP"
-# }
+  load_balancer_arn = aws_lb.loadbalancer.arn
+  port              = "80"
+  protocol          = "HTTP"
+}
 
 # Instance role
 data "aws_iam_policy_document" "ecs-instance-policy" {
@@ -223,6 +223,14 @@ resource "aws_ecs_service" "api-service" {
     assign_public_ip = "true"
   }
 
+}
+
+resource "aws_ecs_service" "datadog-agent-service" {
+  cluster              = aws_ecs_cluster.ecs-cluster.id # ecs cluster id
+  launch_type          = "EC2"
+  name                 = "datadog-agent"
+  task_definition      = aws_ecs_task_definition.api-task-definition.arn
+  scheduling_strategy = "DAEMON"
 }
 
 # resource "" "name" {
