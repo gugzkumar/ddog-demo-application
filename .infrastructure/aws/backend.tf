@@ -218,11 +218,10 @@ resource "aws_ecs_service" "api-service" {
     target_group_arn = aws_lb_target_group.lb_target_group.arn
   }
 
-  network_configuration {
-    subnets          = var.AWS_SUBNETS ## Enter the private subnet id
-    assign_public_ip = "true"
-  }
-
+  # network_configuration {
+  #   subnets          = var.AWS_SUBNETS ## Enter the private subnet id
+  #   assign_public_ip = "true"
+  # }
 }
 
 resource "aws_ecs_service" "datadog-agent-service" {

@@ -69,6 +69,8 @@ resource "aws_ecs_task_definition" "ddog-task-definition" {
     host_path = "/proc"
   }
 
+  execution_role_arn       = "arn:aws:iam::056825751459:role/dev-ddog-demo-api-instance-role"
+
   family                   = "${var.aws_prefix}-ddog-agent"
   network_mode             = "bridge"
   requires_compatibilities = ["EC2"]
