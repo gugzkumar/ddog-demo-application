@@ -47,4 +47,6 @@ module "aws_resources" {
   AWS_VPC_ID     = var.AWS_VPC_ID
   AWS_SUBNETS    = var.AWS_SUBNETS
   datadog_agent_task_def_arn = module.datadog_apm.datadog_agent_task_def_arn
+  DATADOG_API_KEY = var.DATADOG_API_KEY
+  DATADOG_APP_KEY = var.DATADOG_APP_KEY
 }

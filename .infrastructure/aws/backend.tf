@@ -40,6 +40,14 @@ resource "aws_ecs_task_definition" "api-task-definition" {
         {
           name = "AWS_DEFAULT_REGION",
           value = "us-east-1"
+        },
+        {
+          name = "DATADOG_API_KEY",
+          value = var.DATADOG_API_KEY
+        },
+        {
+          name = "DATADOG_API_KEY",
+          value = var.DATADOG_APP_KEY
         }
       ]
     }

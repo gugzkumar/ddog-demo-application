@@ -24,3 +24,13 @@ variable "AWS_SUBNETS" {
 variable "datadog_agent_task_def_arn" {
   type = string
 }
+
+variable "DATADOG_API_KEY" {
+  description = "Value of API key for the Datadog provider - PASSED TO API FOR SENDING CUSTOM EVENTS"
+  type        = string
+}
+
+variable "DATADOG_APP_KEY" {
+  description = "Value of app key for the Datadog provider - PASSED TO API FOR SENDING CUSTOM EVENTS"
+  type        = string
+}
