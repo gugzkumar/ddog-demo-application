@@ -15,7 +15,7 @@ const port = 4000
 
 const logger = winston.createLogger({
     format: winston.format.json(),
-    defaultMeta: { service: 'api-service' },
+    defaultMeta: { service: 'dev-ddog-demo-api' },
     transports: [new winston.transports.Console()]
 });
 
@@ -84,7 +84,7 @@ app.get('/pushtoS3', async (req, res) => {
         })
         return res.json({ 'message': successMessage})
     } catch (error) {
-        logger.error($`Failed to upload file ${objectName} to S3`);
+        logger.error(`Failed to upload file ${objectName} to S3`);
         logger.error(JSON.stringify(error));
         return res.json({ 'message': `Failed to upload file ${objectName} to S3`})
     }
