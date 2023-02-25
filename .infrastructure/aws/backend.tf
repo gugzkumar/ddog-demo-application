@@ -76,6 +76,7 @@ data "aws_iam_policy_document" "ecs-instance-policy" {
   }
 }
 
+
 resource "aws_iam_role" "api-instance-role" {
   name               = "${var.aws_prefix}-api-instance-role"
   path               = "/"
@@ -142,9 +143,36 @@ data "template_file" "user_data" {
   template = file("${path.module}/user_data.tpl")
 }
 
+data "aws_iam_policy_document" "ecs_agent" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ecs_agent" {
+  name               = "${var.aws_prefix}-ecs-agent"
+  assume_role_policy = data.aws_iam_policy_document.ecs_agent.json
+}
+
+
+resource "aws_iam_role_policy_attachment" "ecs_agent" {
+  role       = aws_iam_role.ecs_agent.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+}
+
+resource "aws_iam_instance_profile" "ecs_agent" {
+  name = "${var.aws_prefix}-ecs-agent"
+  role = aws_iam_role.ecs_agent.name
+}
+
 resource "aws_launch_configuration" "ecs_launch_config" {
-  image_id             = "ami-0dfcb1ef8550277af"
-  iam_instance_profile = aws_iam_instance_profile.api-instance-profile.id
+  image_id             = "ami-094d4d00fd7462815"
+  iam_instance_profile = aws_iam_instance_profile.ecs_agent.id
   user_data            = "#!/bin/bash\necho ECS_CLUSTER=${var.aws_prefix}-cluster >> /etc/ecs/ecs.config"
   instance_type        = "t2.medium"
   key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
