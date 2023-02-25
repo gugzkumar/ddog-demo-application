@@ -1,34 +1,81 @@
+/**
+ * Simple API
+ */
 const winston = require('winston');
 const express = require('express')
+const cors = require('cors');
+const AWS = require("aws-sdk");
+const axios = require('axios');
+
+const DD_EVENTS_URL = 'https://api.datadoghq.com/api/v1/events'
+const { DATADOG_API_KEY, DATADOG_APP_KEY, S3_DATA_LAKE_BUCKET } = process.env;
+
 const app = express()
 const port = 4000
 
 const logger = winston.createLogger({
-    level: 'info',
     format: winston.format.json(),
-    defaultMeta: { service: 'user-service' },
-    transports: [
-        //
-        // - Write all logs with importance level of `error` or less to `error.log`
-        // - Write all logs with importance level of `info` or less to `combined.log`
-        //
-        new winston.transports.File({ filename: 'error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'combined.log' }),
-    ],
+    defaultMeta: { service: 'api-service' },
+    transports: [new winston.transports.Console()]
 });
-logger.add(new winston.transports.Console({
-    format: winston.format.simple(),
-}));
+
+app.use(cors())
+app.use(express.json());
 
 app.get('/', (req, res) => {
-    logger.info('TESTING THE LOGS!')
-    return res.send('TESTING THE LOGS!')
+    return res.json({ 'message': 'API is healthy' })
 })
 
+app.get('/info', (req, res) => {
+    logger.info('TESTING THE LOGS!')
+    return res.json({ 'message': 'TESTING THE LOGS!' })
+})
+
+
 app.get('/error', (req, res) => {
-    logger.error('TESTING THE ERROR LOGS!')
-    logger.info('TESTING THE ERROR LOGS!')
-    return res.send('TESTING THE ERROR LOGS!')
+    logger.error('TESTING ERROR LOGS!')
+    return res.json({ 'message': 'TESTING ERROR LOGS!' })
+})
+
+app.get('/pushtoS3', async (req, res) => {
+    const currentDate = new Date();
+    const dateTimeString = currentDate.toISOString();
+    const objectName = `ddog-demo-object-${dateTimeString}.json`;
+    const objectData = '{ "message" : "This is a dummy object for demo purposes" }';
+    const objectType = "application/json";
+    const s3 = new AWS.S3();
+    var successMessage = ""
+    try {
+        // setup params for putObject
+        const params = {
+            Bucket: S3_DATA_LAKE_BUCKET,
+            Key: objectName,
+            Body: objectData,
+            ContentType: objectType,
+        };
+        successMessage = `File uploaded successfully at https://${S3_DATA_LAKE_BUCKET}.s3.amazonaws.com/${objectName}`
+        const result = await s3.putObject(params).promise();
+        logger.info(successMessage);
+        await axios.post(DD_EVENTS_URL, {
+            "title": `File uploaded to Datalake at ${currentDate.toDateString()}`,
+            "text": successMessage,
+            "priority": "normal",
+            "source_type_name": "node",
+            // Todo: Paramaterize the tags to be passed in from Environment Variables
+            "tags": ["Environment:dev", "Application:ddog-demo", "service:ddog-demo-api"]
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'DD-API-KEY': DATADOG_API_KEY,
+                'DD-APPLICATION-KEY': DATADOG_APP_KEY
+            }
+        })
+        return res.json({ 'message': successMessage})
+    } catch (error) {
+        logger.error($`Failed to upload file ${objectName} to S3`);
+        logger.error(JSON.stringify(error));
+        return res.json({ 'message': `Failed to upload file ${objectName} to S3`})
+    }
 })
 
 app.listen(port, () => logger.info(`Example app listening on port ${port}!`))
