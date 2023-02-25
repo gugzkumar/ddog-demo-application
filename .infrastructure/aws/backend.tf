@@ -33,7 +33,7 @@ resource "aws_ecs_task_definition" "api-task-definition" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = aws_cloudwatch_log_group.api_log_group.name
+          awslogs-group = aws_cloudwatch_log_group.api_log_group.name
           # "${var.aws_prefix}-api-log-group}"
           awslogs-region        = "us-east-1"
           awslogs-stream-prefix = "${var.aws_prefix}-api}"
@@ -80,39 +80,16 @@ resource "aws_lb_listener" "lb_listener" {
   protocol          = "HTTP"
 }
 
-# Instance role
-data "aws_iam_policy_document" "ecs-instance-policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
-    principals {
-      type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
-    }
-  }
-}
-
-
-resource "aws_iam_role" "api-instance-role" {
-  name               = "${var.aws_prefix}-api-instance-role"
-  path               = "/"
-  assume_role_policy = data.aws_iam_policy_document.ecs-instance-policy.json
-  tags               = var.common_tags
-}
-
-resource "aws_iam_instance_profile" "api-instance-profile" {
-  name = "${var.aws_prefix}-api-instance-profile"
-  path = "/"
-  role = aws_iam_role.api-instance-role.id
-  provisioner "local-exec" {
-    command = "sleep 60"
-  }
-  tags = var.common_tags
-}
-
 # Service role
 data "aws_iam_policy_document" "api-service-policy" {
   statement {
-    actions = ["sts:AssumeRole"]
+    actions = [
+      "sts:AssumeRole",
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:BatchGetImage",
+      "ecr:GetDownloadUrlForLayer"
+    ]
     principals {
       type        = "Service"
       identifiers = ["ecs.amazonaws.com", "ecs-tasks.amazonaws.com"]
