@@ -84,16 +84,19 @@ resource "aws_lb_listener" "lb_listener" {
 data "aws_iam_policy_document" "api-service-policy" {
   statement {
     actions = [
-      "sts:AssumeRole",
-      "ecr:GetAuthorizationToken",
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:BatchGetImage",
-      "ecr:GetDownloadUrlForLayer"
+      "sts:AssumeRole"
     ]
     principals {
       type        = "Service"
       identifiers = ["ecs.amazonaws.com", "ecs-tasks.amazonaws.com"]
     }
+  }
+  statement {
+    actions = [
+      "ecr:*"
+    ]
+    effect = "Allow"
+    resources = ["*"]
   }
 }
 
