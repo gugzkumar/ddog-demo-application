@@ -20,3 +20,7 @@ variable "AWS_VPC_ID" {
 variable "AWS_SUBNETS" {
   type = list(string)
 }
+
+variable "datadog_agent_task_def_arn" {
+  type = string
+}
