@@ -120,29 +120,3 @@ resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
     }
   }
 }
-
-# # Actual Services
-# resource "aws_ecs_service" "api-service" {
-
-#   cluster              = aws_ecs_cluster.ecs-cluster.id # ecs cluster id
-#   desired_count        = 1                              # no of task running
-#   launch_type          = "EC2"
-#   name                 = "${var.aws_prefix}-api-service"
-#   task_definition      = aws_ecs_task_definition.api-task-definition.arn
-#   force_new_deployment = true
-
-#   load_balancer {
-#     container_name   = "${var.aws_prefix}-api"
-#     container_port   = 4000
-#     target_group_arn = aws_lb_target_group.lb_target_group.arn
-#   }
-
-# }
-
-# resource "aws_ecs_service" "datadog-agent-service" {
-#   cluster             = aws_ecs_cluster.ecs-cluster.id # ecs cluster id
-#   launch_type         = "EC2"
-#   name                = "datadog-agent"
-#   task_definition     = var.datadog_agent_task_def_arn
-#   scheduling_strategy = "DAEMON"
-# }
