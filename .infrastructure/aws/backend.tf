@@ -240,7 +240,7 @@ resource "aws_ecs_service" "service" {
   force_new_deployment = true
 
   load_balancer {
-    container_name   = "openapi-ecs-container" #"container_${var.component}_${var.environment}"
+    container_name   = "${var.aws_prefix}-api"
     container_port   = 6000
     target_group_arn = aws_lb_target_group.lb_target_group.arn
   }
@@ -249,5 +249,6 @@ resource "aws_ecs_service" "service" {
     subnets          = var.AWS_SUBNETS ## Enter the private subnet id
     assign_public_ip = "true"
   }
-  depends_on = ["aws_lb_listener.lb_listener"]
+  
 }
+
