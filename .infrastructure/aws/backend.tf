@@ -210,7 +210,7 @@ resource "aws_autoscaling_group" "ecs_asg" {
   }
 }
 
-resource "aws_ecs_capacity_provider" "test" {
+resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
   name = "${var.aws_prefix}-capacity-provider"
 
   auto_scaling_group_provider {
