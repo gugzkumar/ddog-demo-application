@@ -33,7 +33,7 @@ resource "aws_ecs_task_definition" "api-task-definition" {
       environment = [
         {
           name  = "S3_DATA_LAKE_BUCKET"
-          value = aws_s3_bucket.data_lake.s3_bucket_id
+          value = "${var.aws_prefix}-data-lake"
         },
         {
           name = "AWS_DEFAULT_REGION",
