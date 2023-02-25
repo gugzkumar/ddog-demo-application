@@ -239,8 +239,3 @@ resource "aws_ecs_service" "datadog-agent-service" {
   task_definition     = var.datadog_agent_task_def_arn
   scheduling_strategy = "DAEMON"
 }
-
-# resource "" "name" {
-
-# }
-
