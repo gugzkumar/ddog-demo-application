@@ -15,7 +15,7 @@ resource "aws_ecs_cluster" "ecs-cluster" {
 }
 
 resource "aws_cloudwatch_log_group" "api_log_group" {
-  name = "${var.aws_prefix}-api-log-group}"
+  name = "${var.aws_prefix}-api-log-group"
   tags = var.common_tags
 }
 
