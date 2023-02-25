@@ -25,6 +25,14 @@ resource "aws_ecs_task_definition" "api-task-definition" {
           hostPort      = 6000
         }
       ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group = "${var.aws_prefix}-api}"
+          awslogs-region = "us-east-1"
+          awslogs-stream-prefix = "${var.aws_prefix}-api}"
+        }
+      }
     }
   ])
 
