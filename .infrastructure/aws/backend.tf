@@ -119,29 +119,29 @@ resource "aws_iam_role_policy_attachment" "api-service-role-attachment" {
 
 
 # EC2 Instance
-resource "aws_instance" "ec2_instance" {
-  ami                  = "ami-05e7fa5a3b6085a75"
-  instance_type        = "t2.medium"
-  iam_instance_profile = aws_iam_instance_profile.api-instance-profile.id
-  key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
-  user_data            = data.template_file.user_data.rendered
+# resource "aws_instance" "ec2_instance" {
+#   ami                  = "ami-05e7fa5a3b6085a75"
+#   instance_type        = "t2.medium"
+#   iam_instance_profile = aws_iam_instance_profile.api-instance-profile.id
+#   key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
+#   user_data            = data.template_file.user_data.rendered
 
-  tags = merge(
-    var.common_tags,
-    {
-      Name = "${var.aws_prefix}-ecs-node"
-    }
-  )
+#   tags = merge(
+#     var.common_tags,
+#     {
+#       Name = "${var.aws_prefix}-ecs-node"
+#     }
+#   )
 
-  lifecycle {
-    ignore_changes = [ami, user_data, key_name, private_ip]
-  }
-}
+#   lifecycle {
+#     ignore_changes = [ami, user_data, key_name, private_ip]
+#   }
+# }
 
 
-data "template_file" "user_data" {
-  template = file("${path.module}/user_data.tpl")
-}
+# data "template_file" "user_data" {
+#   template = file("${path.module}/user_data.tpl")
+# }
 
 data "aws_iam_policy_document" "ecs_agent" {
   statement {
@@ -230,21 +230,24 @@ resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
 
 
 # Actual Services
-# resource "aws_ecs_service" "service" {
-#   cluster         = aws_ecs_cluster.cluster.id                  # ecs cluster id
-#   desired_count   = 1                                           # no of task running
-#   launch_type     = "EC2"                                       # Cluster type ECS OR FARGATE
-#   name            = "openapi-service"                           # Name of service
-#   task_definition = aws_ecs_task_definition.task_definition.arn # Attaching Task to service
-#   load_balancer {
-#     container_name   = "openapi-ecs-container" #"container_${var.component}_${var.environment}"
-#     container_port   = "8080"
-#     target_group_arn = aws_lb_target_group.lb_target_group.arn # attaching load_balancer target group to ecs
-#   }
-#   network_configuration {
-#     security_groups  = ["sg-01849003c4f9203ca"]             #CHANGE THIS
-#     subnets          = ["${var.subnet1}", "${var.subnet2}"] ## Enter the private subnet id
-#     assign_public_ip = "false"
-#   }
-#   depends_on = ["aws_lb_listener.lb_listener"]
-# }
+resource "aws_ecs_service" "service" {
+
+  cluster         = aws_ecs_cluster.ecs-cluster.id                  # ecs cluster id
+  desired_count   = 1                                           # no of task running
+  launch_type     = "EC2"
+  name            = "${var.aws_prefix}-api-service"
+  task_definition = aws_ecs_task_definition.api-task-definition.arn
+  force_new_deployment = true
+
+  load_balancer {
+    container_name   = "openapi-ecs-container" #"container_${var.component}_${var.environment}"
+    container_port   = 6000
+    target_group_arn = aws_lb_target_group.lb_target_group.arn
+  }
+
+  network_configuration {
+    subnets          = [var.AWS_SUBNETS] ## Enter the private subnet id
+    assign_public_ip = "true"
+  }
+  depends_on = ["aws_lb_listener.lb_listener"]
+}
