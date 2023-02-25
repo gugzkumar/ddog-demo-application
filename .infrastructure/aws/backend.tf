@@ -228,7 +228,7 @@ resource "aws_ecs_service" "datadog-agent-service" {
   cluster              = aws_ecs_cluster.ecs-cluster.id # ecs cluster id
   launch_type          = "EC2"
   name                 = "datadog-agent"
-  task_definition      = aws_ecs_task_definition.api-task-definition.arn
+  task_definition      = var.datadog_agent_task_def_arn
   scheduling_strategy = "DAEMON"
 }
 
