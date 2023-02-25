@@ -13,7 +13,7 @@ Website is hosted on: https://dev-ddog-demo.gugz.net/
   />
 </p>
 
-The goal of this project is to showcase the integration of an application on AWS with Datadog. What is being built here is a simple web application, but is set up in a way that infrastructure resembles something closer to production.
+The goal of this project is to showcase the integration of an application on AWS with Datadog. What is being built here is a simple web application, but is set up in a way that infrastructure resembles something closer to production. So the integrations are comprehensive.
 
 The application itself is a REST api running on Nodejs in an ECS Cluster, and a react frontend hosted on S3 with a CloudFront distribution. There is also an S3 bucket representing a Data lake. The result is a simple web application that on user action can add data into a data storage system (a very common paradigm).
 
