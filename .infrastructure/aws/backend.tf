@@ -188,7 +188,21 @@ resource "aws_autoscaling_group" "ecs_asg" {
   max_size                  = 2
   health_check_grace_period = 300
   health_check_type         = "EC2"
-  tags                       = concat([var.common_tags])
+  tag {
+    key                 = "Name"
+    value               = "${var.aws_prefix}-ecs-node"
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = var.common_tags[0].key
+    value               = var.common_tags[0].value
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = var.common_tags[1].key
+    value               = var.common_tags[1].value
+    propagate_at_launch = true
+  }
 }
 
 # Actual Services
