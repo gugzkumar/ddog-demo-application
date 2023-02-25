@@ -49,7 +49,7 @@ resource "aws_lb" "loadbalancer" {
 resource "aws_lb_target_group" "lb_target_group" {
   name     = "${var.aws_prefix}-api-lb-tg"
   port     = "80"
-  protocol = "tcp"
+  protocol = "TCP"
   target_type = "alb"
   vpc_id   = var.AWS_VPC_ID
   tags     = var.common_tags
