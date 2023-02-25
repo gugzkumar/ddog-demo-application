@@ -13,8 +13,8 @@ RUN yarn
 # Copying the rest of the code to the working directory
 COPY . .
 
-# Make port 6000 available to the world outside this container
-EXPOSE 6000
+# Make port 4000 available to the world outside this container
+EXPOSE 4000
 
 # Run index.js when the container launches
 CMD ["node", "index.js"]

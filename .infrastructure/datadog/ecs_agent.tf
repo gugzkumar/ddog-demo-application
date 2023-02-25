@@ -24,6 +24,16 @@ resource "aws_ecs_task_definition" "ddog-task-definition" {
           containerPath = "/host/proc"
           sourceVolume  = "proc"
           readOnly      = true
+        },
+        {
+          containerPath = "/opt/datadog-agent/run",
+          sourceVolume  = "pointdir",
+          readOnly      = false
+        },
+        {
+          containerPath = "/var/lib/docker/containers",
+          sourceVolume  = "containers_root",
+          readOnly      = true
         }
       ],
       portMappings = [
@@ -50,26 +60,42 @@ resource "aws_ecs_task_definition" "ddog-task-definition" {
           name  = "DD_PROCESS_AGENT_ENABLED"
           value = "true"
         },
+        {
+          name  = "DD_LOGS_ENABLED"
+          value = "true"
+        },
+        {
+          name  = "DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL"
+          value = "true"
+        }
       ]
     }
   ])
 
   volume {
-    name = "docker_sock"
+    name      = "docker_sock"
     host_path = "/var/run/docker.sock"
   }
 
   volume {
-    name = "cgroup"
+    name      = "cgroup"
     host_path = "/sys/fs/cgroup"
   }
 
   volume {
-    name = "proc"
+    name      = "proc"
     host_path = "/proc"
   }
 
-  # execution_role_arn       = "arn:aws:iam::056825751459:role/dev-ddog-demo-api-instance-role"
+  volume {
+    name      = "pointdir"
+    host_path = "/opt/datadog-agent/run"
+  }
+
+  volume {
+    name      = "containers_root"
+    host_path = "/var/lib/docker/containers"
+  }
 
   family                   = "${var.aws_prefix}-ddog-agent"
   network_mode             = "bridge"

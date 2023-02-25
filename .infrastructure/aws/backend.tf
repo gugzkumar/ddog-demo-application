@@ -26,19 +26,19 @@ resource "aws_ecs_task_definition" "api-task-definition" {
       image = "${var.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${var.aws_prefix}-api:latest"
       portMappings = [
         {
-          containerPort = 6000
-          hostPort      = 6000
+          containerPort = 4000
+          hostPort      = 4000
         }
       ]
-      logConfiguration = {
-        logDriver = "awslogs"
-        options = {
-          awslogs-group = aws_cloudwatch_log_group.api_log_group.name
-          # "${var.aws_prefix}-api-log-group}"
-          awslogs-region        = "us-east-1"
-          awslogs-stream-prefix = "${var.aws_prefix}-api}"
-        }
-      }
+      # logConfiguration = {
+      #   logDriver = "awslogs"
+      #   options = {
+      #     awslogs-group = aws_cloudwatch_log_group.api_log_group.name
+      #     # "${var.aws_prefix}-api-log-group}"
+      #     awslogs-region        = "us-east-1"
+      #     awslogs-stream-prefix = "${var.aws_prefix}-api}"
+      #   }
+      # }
     }
   ])
 
@@ -63,7 +63,7 @@ resource "aws_lb" "loadbalancer" {
 
 resource "aws_lb_target_group" "lb_target_group" {
   name     = "${var.aws_prefix}-api-lb-tg"
-  port     = "6000"
+  port     = "4000"
   protocol = "HTTP"
   vpc_id   = var.AWS_VPC_ID
   tags     = var.common_tags
@@ -117,6 +117,13 @@ resource "aws_iam_policy" "ecr-access" {
         Effect   = "Allow"
         Resource = "*"
       },
+      {
+        Action = [
+          "s3:*",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      }
     ]
   })
 }
@@ -222,7 +229,7 @@ resource "aws_ecs_service" "api-service" {
 
   load_balancer {
     container_name   = "${var.aws_prefix}-api"
-    container_port   = 6000
+    container_port   = 4000
     target_group_arn = aws_lb_target_group.lb_target_group.arn
   }
 

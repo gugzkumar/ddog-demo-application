@@ -6,3 +6,4 @@
 .terraformrc.json
 
 node_modules
+*.log
