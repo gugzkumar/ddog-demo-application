@@ -91,13 +91,6 @@ data "aws_iam_policy_document" "api-service-policy" {
       identifiers = ["ecs.amazonaws.com", "ecs-tasks.amazonaws.com"]
     }
   }
-  statement {
-    actions = [
-      "ecr:*"
-    ]
-    effect = "Allow"
-    resources = ["*"]
-  }
 }
 
 resource "aws_iam_role" "api-service-role" {
@@ -110,6 +103,27 @@ resource "aws_iam_role" "api-service-role" {
 resource "aws_iam_role_policy_attachment" "api-service-role-attachment" {
   role       = aws_iam_role.api-service-role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
+}
+
+resource "aws_iam_policy" "ecr-access" {
+  name        = "${var.aws_prefix}-ecr-access"
+  policy      = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ecr:*",
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "api-service-role-attachment" {
+  role       = aws_iam_role.api-service-role.name
+  policy_arn = aws_iam_policy.ecr-access.arn
 }
 
 data "aws_iam_policy_document" "ecs_agent" {
