@@ -188,6 +188,7 @@ resource "aws_autoscaling_group" "ecs_asg" {
   max_size                  = 2
   health_check_grace_period = 300
   health_check_type         = "EC2"
+  protect_from_scale_in     = true
   tag {
     key                 = "Name"
     value               = "${var.aws_prefix}-ecs-node"
