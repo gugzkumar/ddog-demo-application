@@ -70,7 +70,7 @@ resource "aws_ecs_task_definition" "ddog-task-definition" {
   }
 
   family                   = "${var.aws_prefix}-ddog-agent"
-  network_mode             = "awsvpc"
+  network_mode             = "bridge"
   requires_compatibilities = ["EC2"]
   tags                     = var.common_tags
 }
