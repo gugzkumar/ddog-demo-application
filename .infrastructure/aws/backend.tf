@@ -101,7 +101,7 @@ data "aws_iam_policy_document" "api-service-policy" {
     actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
-      identifiers = ["ecs.amazonaws.com"]
+      identifiers = ["ecs.amazonaws.com", "ecs-tasks.amazonaws.com"]
     }
   }
 }
