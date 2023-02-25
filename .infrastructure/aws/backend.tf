@@ -178,53 +178,53 @@ resource "aws_launch_configuration" "ecs_launch_config_2" {
   key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
 }
 
-# resource "aws_autoscaling_group" "ecs_asg" {
-#   name                      = "${var.aws_prefix}-ecs-asg"
-#   vpc_zone_identifier       = var.AWS_SUBNETS
-#   launch_configuration      = aws_launch_configuration.ecs_launch_config_2.name
-#   target_group_arns         = [aws_lb_target_group.lb_target_group.arn]
-#   desired_capacity          = 1
-#   min_size                  = 1
-#   max_size                  = 2
-#   health_check_grace_period = 300
-#   health_check_type         = "EC2"
-#   tag {
-#     key                 = "Name"
-#     value               = "${var.aws_prefix}-ecs-node"
-#     propagate_at_launch = true
-#   }
-#   tag {
-#     key                 = "Application"
-#     value               = var.common_tags.Application
-#     propagate_at_launch = true
-#   }
-#   tag {
-#     key                 = "Environment"
-#     value               = var.common_tags.Environment
-#     propagate_at_launch = true
-#   }
-#   tag {
-#     key                 = "AmazonECSManaged"
-#     value               = true
-#     propagate_at_launch = true
-#   }
-# }
+resource "aws_autoscaling_group" "ecs_asg" {
+  name                      = "${var.aws_prefix}-ecs-asg"
+  vpc_zone_identifier       = var.AWS_SUBNETS
+  launch_configuration      = aws_launch_configuration.ecs_launch_config_2.name
+  target_group_arns         = [aws_lb_target_group.lb_target_group.arn]
+  desired_capacity          = 1
+  min_size                  = 1
+  max_size                  = 2
+  health_check_grace_period = 300
+  health_check_type         = "EC2"
+  tag {
+    key                 = "Name"
+    value               = "${var.aws_prefix}-ecs-node"
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = "Application"
+    value               = var.common_tags.Application
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = "Environment"
+    value               = var.common_tags.Environment
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = "AmazonECSManaged"
+    value               = true
+    propagate_at_launch = true
+  }
+}
 
-# resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
-#   name = "${var.aws_prefix}-capacity-provider"
+resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
+  name = "${var.aws_prefix}-capacity-provider"
 
-#   auto_scaling_group_provider {
-#     auto_scaling_group_arn         = aws_autoscaling_group.ecs_asg.arn
-#     managed_termination_protection = "ENABLED"
+  auto_scaling_group_provider {
+    auto_scaling_group_arn         = aws_autoscaling_group.ecs_asg.arn
+    managed_termination_protection = "ENABLED"
 
-#     managed_scaling {
-#       maximum_scaling_step_size = 1000
-#       minimum_scaling_step_size = 1
-#       status                    = "ENABLED"
-#       target_capacity           = 1
-#     }
-#   }
-# }
+    managed_scaling {
+      maximum_scaling_step_size = 1000
+      minimum_scaling_step_size = 1
+      status                    = "ENABLED"
+      target_capacity           = 1
+    }
+  }
+}
 
 
 
