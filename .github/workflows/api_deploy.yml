@@ -20,7 +20,7 @@ on:
     branches: [ "main" ]
 
 env:
-  AWS_REGION: use-east-1                      
+  AWS_REGION: us-east-1                      
   ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}  
   ECS_SERVICE: ${{ vars.ECS_SERVICE }}     
   ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}                        
