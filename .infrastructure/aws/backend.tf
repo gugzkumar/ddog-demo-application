@@ -246,7 +246,7 @@ resource "aws_ecs_service" "service" {
   }
 
   network_configuration {
-    subnets          = [var.AWS_SUBNETS] ## Enter the private subnet id
+    subnets          = var.AWS_SUBNETS ## Enter the private subnet id
     assign_public_ip = "true"
   }
   depends_on = ["aws_lb_listener.lb_listener"]
