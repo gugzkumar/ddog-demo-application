@@ -194,16 +194,18 @@ resource "aws_autoscaling_group" "ecs_asg" {
     propagate_at_launch = true
   }
   tag {
-    key                 = var.common_tags[0].key
-    value               = var.common_tags[0].value
+    key                 = "Application"
+    value               = var.common_tags.Application
     propagate_at_launch = true
   }
   tag {
-    key                 = var.common_tags[1].key
-    value               = var.common_tags[1].value
+    key                 = "Environment"
+    value               = var.common_tags.Environment
     propagate_at_launch = true
   }
 }
+
+
 
 # Actual Services
 # resource "aws_ecs_service" "service" {
