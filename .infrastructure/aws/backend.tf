@@ -121,7 +121,7 @@ resource "aws_iam_policy" "ecr-access" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "api-service-role-attachment" {
+resource "aws_iam_role_policy_attachment" "ecr-access-role-attachment" {
   role       = aws_iam_role.api-service-role.name
   policy_arn = aws_iam_policy.ecr-access.arn
 }
