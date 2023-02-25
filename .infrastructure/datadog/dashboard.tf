@@ -16,7 +16,7 @@ resource "datadog_dashboard_json" "dashboard_json" {
                 "type": "hostmap",
                 "requests": {
                     "fill": {
-                        "q": "avg:system.cpu.user{application:${var.common_tags["Application"]},${var.common_tags["Environment"]}} by {host}"
+                        "q": "avg:system.cpu.user{application:${var.common_tags["Application"]},environment:${var.common_tags["Environment"]}} by {host}"
                     }
                 },
                 "node_type": "host",
