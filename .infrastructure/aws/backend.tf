@@ -120,7 +120,7 @@ resource "aws_iam_role_policy_attachment" "api-service-role-attachment" {
 
 # EC2 Instance
 resource "aws_instance" "ec2_instance" {
-  ami                  = "ami-0dfcb1ef8550277af"
+  ami                  = "ami-05e7fa5a3b6085a75"
   instance_type        = "t2.medium"
   iam_instance_profile = aws_iam_instance_profile.api-instance-profile.id
   key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
