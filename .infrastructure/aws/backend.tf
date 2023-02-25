@@ -48,23 +48,23 @@ resource "aws_lb" "loadbalancer" {
 
 resource "aws_lb_target_group" "lb_target_group" {
   name     = "${var.aws_prefix}-api-lb-tg"
-  port     = "6000"
-  protocol = "HTTP"
+  port     = "80"
+  protocol = "tcp"
   target_type = "alb"
   vpc_id   = var.AWS_VPC_ID
   tags     = var.common_tags
 }
 
-resource "aws_lb_listener" "lb_listener" {
-  default_action {
-    target_group_arn = aws_lb_target_group.lb_target_group.id
-    type             = "forward"
-  }
+# resource "aws_lb_listener" "lb_listener" {
+#   default_action {
+#     target_group_arn = aws_lb_target_group.lb_target_group.id
+#     type             = "forward"
+#   }
 
-  load_balancer_arn = aws_lb.loadbalancer.arn
-  port              = "80"
-  protocol          = "HTTP"
-}
+#   load_balancer_arn = aws_lb.loadbalancer.arn
+#   port              = "80"
+#   protocol          = "HTTP"
+# }
 
 # Instance role
 data "aws_iam_policy_document" "ecs-instance-policy" {
