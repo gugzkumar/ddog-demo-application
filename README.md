@@ -5,7 +5,7 @@ Website is hosted on: https://dev-ddog-demo.gugz.net/
 <p align="left">
   <img
     src="docs/images/application-frontend.png"
-    width="300"
+    width="500"
   />
   <img
     src="docs/images/show-dashboard.png"

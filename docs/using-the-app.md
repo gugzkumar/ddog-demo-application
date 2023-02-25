@@ -11,7 +11,7 @@ In this organization you should find a dashboard called: `Datadog Demo Dashboard
 <p align="left">
   <img
     src="images/application-frontend.png"
-    width="300"
+    width="500"
   />
   <img
     src="images/show-dashboard.png"
