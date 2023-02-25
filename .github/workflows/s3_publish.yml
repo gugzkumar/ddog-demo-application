@@ -50,7 +50,7 @@ jobs:
         run: |
           cd ./client
           npm install
-          npm run build
+          REACT_APP_API_URL=$API_URL npm run build
 
       - name: Deploy to S3 bucket
         run: aws s3 sync ./client/build s3://$FRONTEND_S3_BUCKET --delete

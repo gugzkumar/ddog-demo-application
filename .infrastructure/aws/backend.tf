@@ -24,6 +24,8 @@ resource "aws_ecs_task_definition" "api-task-definition" {
     {
       name  = "${var.aws_prefix}-api"
       image = "${var.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${var.aws_prefix}-api:latest"
+      cpu       = 256
+      memory    = 512
       portMappings = [
         {
           containerPort = 4000

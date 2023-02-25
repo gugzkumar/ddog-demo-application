@@ -1,0 +1,35 @@
+# This Docker Compose is meant to run the App locally on ones machine.
+# Its use case is for development, not for production.
+#
+version: '3.7'
+services:
+    # --------------------------------------------------------------------------
+    # FRONTEND WRITTEN IN REACT
+    # --------------------------------------------------------------------------
+    client:
+        build: ./client
+        container_name: ddog-demo-client
+        env_file:
+            .env
+        environment:
+            - REACT_APP_API_URL=http://localhost:4000
+        volumes:
+          - ./client/src/:/usr/src/app/src
+          - /usr/src/app/node_modules
+        ports:
+          - "3000:3000"
+        command: npm run start
+    # --------------------------------------------------------------------------
+    # BACKEND WRITTEN IN EXPRESS
+    # --------------------------------------------------------------------------
+    api:
+        build: ./api
+        container_name: ddog-demo-api
+        env_file:
+            .env
+        volumes:
+          - ./api:/app
+          - /app/node_modules
+        ports:
+          - "4000:4000"
+        command: npm run start-dev

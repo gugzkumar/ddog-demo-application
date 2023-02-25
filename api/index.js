@@ -22,21 +22,33 @@ const logger = winston.createLogger({
 app.use(cors())
 app.use(express.json());
 
+/**
+ * Health Check Endpoint
+ */
 app.get('/', (req, res) => {
     return res.json({ 'message': 'API is healthy' })
 })
 
+/**
+ * This endpoint is used to test the basic info level logging
+ */
 app.get('/info', (req, res) => {
     logger.info('TESTING THE LOGS!')
     return res.json({ 'message': 'TESTING THE LOGS!' })
 })
 
-
+/**
+ * This endpoint is used to test the error logging
+ */
 app.get('/error', (req, res) => {
     logger.error('TESTING ERROR LOGS!')
     return res.json({ 'message': 'TESTING ERROR LOGS!' })
 })
 
+/**
+ * This endpoint is used to test the ability to push an event to Datadog.
+ * It also adds content to the S3 Data Lake, which can be then monitored by Datadog.
+ */
 app.get('/pushtoS3', async (req, res) => {
     const currentDate = new Date();
     const dateTimeString = currentDate.toISOString();
