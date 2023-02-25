@@ -11,7 +11,8 @@
 #    FRONTEND_S3_BUCKET: Name of S3 Bucket that host's your application's web page
 #    API_URL: Public Url of you Application's API
 
-name: Deploy Frontend to Amazon ECS
+name: Deploy UI to Amazon S3
+
 on:
   push:
     branches: ["main"]
