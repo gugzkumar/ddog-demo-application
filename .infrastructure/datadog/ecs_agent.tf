@@ -1,5 +1,8 @@
 # ECS task definition for Datadog Agent to be able to monitor containers on an ecs cluster
 # https://docs.datadoghq.com/containers/amazon_ecs/?tab=awscli#create-an-ecs-task
+#
+# This agent also forwards and logs of containers in the same cluster to Datadog
+
 resource "aws_ecs_task_definition" "ddog-task-definition" {
   container_definitions = jsonencode([
     {

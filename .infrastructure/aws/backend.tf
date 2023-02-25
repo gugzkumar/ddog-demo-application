@@ -30,19 +30,19 @@ resource "aws_ecs_task_definition" "api-task-definition" {
           hostPort      = 4000
         }
       ]
-      # logConfiguration = {
-      #   logDriver = "awslogs"
-      #   options = {
-      #     awslogs-group = aws_cloudwatch_log_group.api_log_group.name
-      #     # "${var.aws_prefix}-api-log-group}"
-      #     awslogs-region        = "us-east-1"
-      #     awslogs-stream-prefix = "${var.aws_prefix}-api}"
-      #   }
-      # }
+      environment = [
+        {
+          name  = "S3_DATA_LAKE_BUCKET"
+          value = aws_s3_bucket.data_lake_bucket.name
+        },
+        {
+          name = "AWS_DEFAULT_REGION",
+          value = "us-east-1"
+        }
+      ]
     }
   ])
 
-  # network_mode           = "awsvpc"
   execution_role_arn       = aws_iam_role.api-service-role.arn
   family                   = "${var.aws_prefix}-api-task-definition"
   network_mode             = "bridge"
@@ -106,8 +106,8 @@ resource "aws_iam_role_policy_attachment" "api-service-role-attachment" {
 }
 
 resource "aws_iam_policy" "ecr-access" {
-  name        = "${var.aws_prefix}-ecr-access"
-  policy      = jsonencode({
+  name = "${var.aws_prefix}-ecr-access"
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -233,10 +233,6 @@ resource "aws_ecs_service" "api-service" {
     target_group_arn = aws_lb_target_group.lb_target_group.arn
   }
 
-  # network_configuration {
-  #   subnets          = var.AWS_SUBNETS ## Enter the private subnet id
-  #   assign_public_ip = "true"
-  # }
 }
 
 resource "aws_ecs_service" "datadog-agent-service" {

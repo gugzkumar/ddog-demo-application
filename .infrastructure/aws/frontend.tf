@@ -1,6 +1,10 @@
 # Sets up a static website on AWS S3 and CloudFront using Terraform
 # Copied some of the code from here: 
 # https://towardsaws.com/provision-a-static-website-on-aws-s3-and-cloudfront-using-terraform-d8004a8f629a
+#
+# You will need to set up a Route53 hosted zone and a certificate in AWS Certificate Manager
+# after all resources here are provisioned if you wish to host this on secure, public urls.
+# You will also need to set up a DNS record for the website
 
 locals {
   website_url = "${var.aws_prefix}.gugz.net"

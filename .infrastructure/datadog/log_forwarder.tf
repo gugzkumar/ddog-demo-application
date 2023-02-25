@@ -1,5 +1,11 @@
-# Setup Datadog Forwarder to ship logs
+# Setup Datadog Forwarder to ship logs from AWS resources to Datadog
 # https://docs.datadoghq.com/logs/guide/forwarder/#terraform
+#
+# Note, while this enables Datadog to collect logs from AWS resources,
+# it does not enable Datadog to collect logs from ECS containers.
+# Also to enable the forwarder to collect logs from the resources
+# you need to set the Fowarder Lambda function's ARN on the Datadog website
+# after the forwarder is provisioned.
 
 # Store Datadog API key in AWS Secrets Manager
 resource "aws_secretsmanager_secret" "dd_api_key" {
