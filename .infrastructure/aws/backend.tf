@@ -170,13 +170,13 @@ resource "aws_iam_instance_profile" "ecs_agent" {
   role = aws_iam_role.ecs_agent.name
 }
 
-# resource "aws_launch_configuration" "ecs_launch_config_2" {
-#   image_id             = "ami-05e7fa5a3b6085a75)"
-#   iam_instance_profile = aws_iam_instance_profile.ecs_agent.id
-#   user_data            = "#!/bin/bash\necho ECS_CLUSTER=${var.aws_prefix}-cluster >> /etc/ecs/ecs.config"
-#   instance_type        = "t2.medium"
-#   key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
-# }
+resource "aws_launch_configuration" "ecs_launch_config_2" {
+  image_id             = "ami-05e7fa5a3b6085a75)"
+  iam_instance_profile = aws_iam_instance_profile.ecs_agent.id
+  user_data            = "#!/bin/bash\necho ECS_CLUSTER=${var.aws_prefix}-cluster >> /etc/ecs/ecs.config"
+  instance_type        = "t2.medium"
+  key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
+}
 
 # resource "aws_autoscaling_group" "ecs_asg" {
 #   name                      = "${var.aws_prefix}-ecs-asg"
