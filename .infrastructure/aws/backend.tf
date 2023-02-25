@@ -46,7 +46,7 @@ resource "aws_ecs_task_definition" "api-task-definition" {
           value = var.DATADOG_API_KEY
         },
         {
-          name = "DATADOG_API_KEY",
+          name = "DATADOG_APP_KEY",
           value = var.DATADOG_APP_KEY
         }
       ]
