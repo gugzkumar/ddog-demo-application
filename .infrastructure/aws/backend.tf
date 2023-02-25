@@ -4,12 +4,12 @@
 # and https://github.com/ronnic1/aws-ecs-ec2-project
 
 # ECR and ECS for Backend
-resource "aws_ecr_repository" "api-instance" {
+resource "aws_ecr_repository" "api-image-repo" {
   name = "${var.aws_prefix}-api"
   tags = var.common_tags
 }
 
-resource "aws_ecs_cluster" "api-instance-cluster" {
+resource "aws_ecs_cluster" "ecs-cluster" {
   name = "${var.aws_prefix}-cluster"
   tags = var.common_tags
 }
@@ -202,6 +202,27 @@ resource "aws_autoscaling_group" "ecs_asg" {
     key                 = "Environment"
     value               = var.common_tags.Environment
     propagate_at_launch = true
+  }
+  tag {
+    key                 = "AmazonECSManaged"
+    value               = true
+    propagate_at_launch = true
+  }
+}
+
+resource "aws_ecs_capacity_provider" "test" {
+  name = "test"
+
+  auto_scaling_group_provider {
+    auto_scaling_group_arn         = aws_autoscaling_group.ecs_asg.arn
+    managed_termination_protection = "ENABLED"
+
+    managed_scaling {
+      maximum_scaling_step_size = 1000
+      minimum_scaling_step_size = 1
+      status                    = "ENABLED"
+      target_capacity           = 1
+    }
   }
 }
 
