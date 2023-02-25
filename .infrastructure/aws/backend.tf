@@ -28,9 +28,10 @@ resource "aws_ecs_task_definition" "api-task-definition" {
     }
   ])
 
+  # network_mode           = "awsvpc"
   execution_role_arn       = aws_iam_role.api-service-role.arn
   family                   = "${var.aws_prefix}-api-task-definition"
-  network_mode             = "awsvpc"
+  network_mode             = "bridge"
   memory                   = "2048"
   cpu                      = "1024"
   requires_compatibilities = ["EC2"]
@@ -47,12 +48,11 @@ resource "aws_lb" "loadbalancer" {
 }
 
 resource "aws_lb_target_group" "lb_target_group" {
-  name     = "${var.aws_prefix}-api-lb-tg"
-  port     = "80"
-  protocol = "TCP"
-  target_type = "alb"
-  vpc_id   = var.AWS_VPC_ID
-  tags     = var.common_tags
+  name        = "${var.aws_prefix}-api-lb-tg"
+  port        = "6000"
+  protocol    = "HTTP"
+  vpc_id      = var.AWS_VPC_ID
+  tags        = var.common_tags
 }
 
 # resource "aws_lb_listener" "lb_listener" {
@@ -117,32 +117,6 @@ resource "aws_iam_role_policy_attachment" "api-service-role-attachment" {
   role       = aws_iam_role.api-service-role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
 }
-
-
-# EC2 Instance
-# resource "aws_instance" "ec2_instance" {
-#   ami                  = "ami-05e7fa5a3b6085a75"
-#   instance_type        = "t2.medium"
-#   iam_instance_profile = aws_iam_instance_profile.api-instance-profile.id
-#   key_name             = "gagan" #CHANGE THIS TO ANOTHER KEY
-#   user_data            = data.template_file.user_data.rendered
-
-#   tags = merge(
-#     var.common_tags,
-#     {
-#       Name = "${var.aws_prefix}-ecs-node"
-#     }
-#   )
-
-#   lifecycle {
-#     ignore_changes = [ami, user_data, key_name, private_ip]
-#   }
-# }
-
-
-# data "template_file" "user_data" {
-#   template = file("${path.module}/user_data.tpl")
-# }
 
 data "aws_iam_policy_document" "ecs_agent" {
   statement {
@@ -231,11 +205,11 @@ resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
 # Actual Services
 resource "aws_ecs_service" "api-service" {
 
-  cluster         = aws_ecs_cluster.ecs-cluster.id                  # ecs cluster id
-  desired_count   = 1                                           # no of task running
-  launch_type     = "EC2"
-  name            = "${var.aws_prefix}-api-service"
-  task_definition = aws_ecs_task_definition.api-task-definition.arn
+  cluster              = aws_ecs_cluster.ecs-cluster.id # ecs cluster id
+  desired_count        = 1                              # no of task running
+  launch_type          = "EC2"
+  name                 = "${var.aws_prefix}-api-service"
+  task_definition      = aws_ecs_task_definition.api-task-definition.arn
   force_new_deployment = true
 
   load_balancer {
@@ -252,6 +226,6 @@ resource "aws_ecs_service" "api-service" {
 }
 
 # resource "" "name" {
-  
+
 # }
 
