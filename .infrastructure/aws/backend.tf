@@ -170,7 +170,7 @@ resource "aws_iam_instance_profile" "ecs_agent" {
   role = aws_iam_role.ecs_agent.name
 }
 
-resource "aws_launch_configuration" "ecs_launch_config" {
+resource "aws_launch_configuration" "ecs_launch_config_2" {
   image_id             = "ami-094d4d00fd7462815"
   iam_instance_profile = aws_iam_instance_profile.ecs_agent.id
   user_data            = "#!/bin/bash\necho ECS_CLUSTER=${var.aws_prefix}-cluster >> /etc/ecs/ecs.config"
@@ -181,7 +181,7 @@ resource "aws_launch_configuration" "ecs_launch_config" {
 resource "aws_autoscaling_group" "ecs_asg" {
   name                      = "${var.aws_prefix}-ecs-asg"
   vpc_zone_identifier       = var.AWS_SUBNETS
-  launch_configuration      = aws_launch_configuration.ecs_launch_config.name
+  launch_configuration      = aws_launch_configuration.ecs_launch_config_2.name
   target_group_arns         = [aws_lb_target_group.lb_target_group.arn]
   desired_capacity          = 1
   min_size                  = 1
