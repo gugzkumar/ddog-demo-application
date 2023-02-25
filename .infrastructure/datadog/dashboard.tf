@@ -1,5 +1,5 @@
 # This is a Datadog dashboard for the Datadog Demo application.
-# It tries to showcase some of the features of Datadog in one place.
+# It tries to showcase some of the features of Datadog demo in one place.
 
 resource "datadog_dashboard_json" "dashboard_json" {
   dashboard = <<EOF
