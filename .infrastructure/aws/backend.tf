@@ -14,6 +14,11 @@ resource "aws_ecs_cluster" "ecs-cluster" {
   tags = var.common_tags
 }
 
+resource "aws_cloudwatch_log_group" "api_log_group" {
+  name = "${var.aws_prefix}-api-log-group}"
+  tags = var.common_tags
+}
+
 resource "aws_ecs_task_definition" "api-task-definition" {
   container_definitions = jsonencode([
     {
@@ -28,8 +33,9 @@ resource "aws_ecs_task_definition" "api-task-definition" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group = "${var.aws_prefix}-api}"
-          awslogs-region = "us-east-1"
+          awslogs-group         = aws_cloudwatch_log_group.api_log_group.name
+          # "${var.aws_prefix}-api-log-group}"
+          awslogs-region        = "us-east-1"
           awslogs-stream-prefix = "${var.aws_prefix}-api}"
         }
       }
@@ -56,11 +62,11 @@ resource "aws_lb" "loadbalancer" {
 }
 
 resource "aws_lb_target_group" "lb_target_group" {
-  name        = "${var.aws_prefix}-api-lb-tg"
-  port        = "6000"
-  protocol    = "HTTP"
-  vpc_id      = var.AWS_VPC_ID
-  tags        = var.common_tags
+  name     = "${var.aws_prefix}-api-lb-tg"
+  port     = "6000"
+  protocol = "HTTP"
+  vpc_id   = var.AWS_VPC_ID
+  tags     = var.common_tags
 }
 
 resource "aws_lb_listener" "lb_listener" {
@@ -233,10 +239,10 @@ resource "aws_ecs_service" "api-service" {
 }
 
 resource "aws_ecs_service" "datadog-agent-service" {
-  cluster              = aws_ecs_cluster.ecs-cluster.id # ecs cluster id
-  launch_type          = "EC2"
-  name                 = "datadog-agent"
-  task_definition      = var.datadog_agent_task_def_arn
+  cluster             = aws_ecs_cluster.ecs-cluster.id # ecs cluster id
+  launch_type         = "EC2"
+  name                = "datadog-agent"
+  task_definition     = var.datadog_agent_task_def_arn
   scheduling_strategy = "DAEMON"
 }
 
