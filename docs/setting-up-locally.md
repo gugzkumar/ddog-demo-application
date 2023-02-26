@@ -12,11 +12,11 @@ Create an S3 bucket in AWS to represent the data lake.
 
 You will need the following credentials to run the app locally:
 
-    - `AWS_ACCESS_KEY_ID` - AWS Access Key ID for the IAM user
-    - `AWS_SECRET_ACCESS_KEY` - AWS Secret Access Key for the IAM user
-    - `AWS_DEFAULT_REGION` - AWS Region of the data lake bucket
-    - `DATADOG_API_KEY` - Datadog API Key
-    - `DATADOG_APP_KEY` - Datadog APP Key
+- `AWS_ACCESS_KEY_ID` - AWS Access Key ID for the IAM user
+- `AWS_SECRET_ACCESS_KEY` - AWS Secret Access Key for the IAM user
+- `AWS_DEFAULT_REGION` - AWS Region of the data lake bucket
+- `DATADOG_API_KEY` - Datadog API Key
+- `DATADOG_APP_KEY` - Datadog APP Key
 
 ## STEP 3: Create a .env file
 
