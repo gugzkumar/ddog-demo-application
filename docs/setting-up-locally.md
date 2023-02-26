@@ -11,6 +11,7 @@ Create an S3 bucket in AWS to represent the data lake.
 ## STEP 2: Grab Credentials
 
 You will need the following credentials to run the app locally:
+
     - `AWS_ACCESS_KEY_ID` - AWS Access Key ID for the IAM user
     - `AWS_SECRET_ACCESS_KEY` - AWS Secret Access Key for the IAM user
     - `AWS_DEFAULT_REGION` - AWS Region of the data lake bucket
