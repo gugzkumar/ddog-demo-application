@@ -74,7 +74,7 @@
 </p>
 
 
-## STEP 5.5:
+## STEP 5.5: Attach a Url to the API and UI
 The application load balancer which hosts the api, and the cloudfront distribution which hosts the ui, both have Public URLs. But to make things consistent you may wan to consider getting a domain name and setting up a CNAME records in Route53 to point to the cloudfront distribution and load balancer. This is not required, but it is a nice to have as it will make things consistent naming wise.
 
 ## STEP 6: Move on to deployment
