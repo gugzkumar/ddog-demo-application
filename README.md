@@ -19,7 +19,7 @@ The application itself is a REST api running on Nodejs in an ECS Cluster, and a 
 
 Our infrastructure is set up using Terraform, and the CI/CD is done using Github Actions. 
 
-The following is the application's architecture diagram with its core components (the the integration with Datadog is not hidden):
+The following is the application's architecture diagram with its core components (the integration with Datadog is hidden):
 
 <p align="left">
   <img
